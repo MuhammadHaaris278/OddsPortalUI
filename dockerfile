@@ -1,39 +1,42 @@
-# Use a Python base image (slim version for smaller size)
+# Use an official Python runtime as a parent image
 FROM python:3.9-slim
 
-# Set the working directory inside the container
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy the entire project into the container
-COPY . /app
-
-# Install system dependencies needed for Playwright to work
-RUN apt-get update && \
-    apt-get install -y \
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
     wget \
     ca-certificates \
-    curl \
-    libx11-dev \
-    libgdk-pixbuf2.0-0 \
-    libgtk-3-0 \
+    fonts-liberation \
+    libappindicator3-1 \
     libasound2 \
-    libdbus-1-3 \
-    libxtst6 \
     libnss3 \
-    libxss1 \
+    libx11-xcb1 \
+    libxcomposite1 \
     libxrandr2 \
-    libgbm1 \
-    libnss3-dev \
+    xdg-utils \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python dependencies from requirements.txt
+# Install Playwright dependencies
+RUN apt-get update && apt-get install -y \
+    libxss1 \
+    libgdk-pixbuf2.0-0 \
+    libgtk-3-0 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install the required Python packages
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Make the postinstall.sh script executable and run it to install Playwright browsers
-RUN chmod +x /app/postinstall.sh && /app/postinstall.sh
+# Install Playwright and Chromium
+RUN pip install playwright && playwright install
 
-# Expose port 8000 for the FastAPI application
+# Copy the current directory contents into the container
+COPY . .
+
+# Make port 8000 available to the world outside this container
 EXPOSE 8000
 
-# Run the FastAPI app using uvicorn
+# Define the command to run the application
 CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"]
