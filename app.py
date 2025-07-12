@@ -21,7 +21,7 @@ except ImportError as e:
     st.stop()
 
 # API configuration
-API_URL = "http://localhost:8000"  # Update this if the API runs elsewhere
+API_URL = "https://oddsportalui-1.onrender.com"  # Update this if the API runs elsewhere
 logger = get_logger()
 
 
@@ -628,7 +628,7 @@ st.markdown("## 🔧 Troubleshooting")
 with st.expander("💡 Common Issues & Solutions"):
     st.markdown("""
     **Issue: API Not Responding**
-    - **Solution 1**: Ensure the API is running at `http://localhost:8000`
+    - **Solution 1**: Ensure the API is running at `https://oddsportalui.onrender.com`
     - **Solution 2**: Check the API logs for errors
     - **Solution 3**: Restart the API server:
       ```bash
