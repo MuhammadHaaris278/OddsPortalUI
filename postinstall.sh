@@ -1,4 +1,3 @@
 #!/bin/bash
-
-# Install Playwright dependencies (this is the key step)
-python3 -m playwright install --with-deps
+# Set the Playwright browser installation path to a writable directory
+PLAYWRIGHT_BROWSERS_PATH=/opt/render/.cache/ms-playwright python3 -m playwright install --with-deps
