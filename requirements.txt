@@ -1,6 +1,27 @@
-playwright
-pandas
-httpx
-fake-useragent
+# Backend (FastAPI)
+fastapi
+uvicorn
+
+# Frontend (Streamlit)
+streamlit
+
+# Web Scraping & HTTP Requests
 requests
-bs4
+httpx
+beautifulsoup4
+fake-useragent
+
+# For Logging and Debugging
+loguru
+
+# Asynchronous Web Scraping
+playwright
+asyncio
+
+# For Data Handling and Processing
+pandas
+
+# For working with Docker (if you are containerizing your app)
+docker
+
+# (Optional) Any additional libraries based on your project
