@@ -1,42 +1,40 @@
-# Use an official Python runtime as a parent image
-FROM python:3.9-slim
+# Use the official Python image as the base
+FROM python:3.13-slim
 
-# Set the working directory in the container
-WORKDIR /app
-
-# Install system dependencies
+# Install required system dependencies for Playwright
 RUN apt-get update && apt-get install -y \
+    libgtk-4-1 \
+    libgraphene-1.0-0 \
+    libgstgl-1.0-0 \
+    libgstcodecparsers-1.0-0 \
+    libavif15 \
+    libenchant-2-2 \
+    libsecret-1-0 \
+    libmanette-0.2-0 \
+    libglesv2-2.0 \
     wget \
     ca-certificates \
-    fonts-liberation \
-    libappindicator3-1 \
-    libasound2 \
-    libnss3 \
-    libx11-xcb1 \
-    libxcomposite1 \
-    libxrandr2 \
-    xdg-utils \
+    --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Playwright dependencies
-RUN apt-get update && apt-get install -y \
-    libxss1 \
-    libgdk-pixbuf2.0-0 \
-    libgtk-3-0 \
-    && rm -rf /var/lib/apt/lists/*
+# Install Playwright's dependencies
+RUN pip install --upgrade pip
+RUN pip install playwright
 
-# Install the required Python packages
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Install browsers required by Playwright
+RUN playwright install
 
-# Install Playwright and Chromium
-RUN pip install playwright && playwright install
+# Set working directory
+WORKDIR /app
 
-# Copy the current directory contents into the container
-COPY . .
+# Copy your project files into the container
+COPY . /app
 
-# Make port 8000 available to the world outside this container
+# Install Python dependencies
+RUN pip install -r requirements.txt
+
+# Expose the port your app will run on
 EXPOSE 8000
 
-# Define the command to run the application
+# Run the application with Uvicorn
 CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"]
