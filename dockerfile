@@ -1,7 +1,7 @@
-# Use the official Python image as the base
+# Use official Python 3.13 image as base
 FROM python:3.13-slim
 
-# Install required system dependencies for Playwright
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     libgtk-4-1 \
     libgraphene-1.0-0 \
@@ -14,27 +14,26 @@ RUN apt-get update && apt-get install -y \
     libglesv2-2.0 \
     wget \
     ca-certificates \
-    --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/*
+    --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
-# Install Playwright's dependencies
+# Install pip dependencies
 RUN pip install --upgrade pip
 RUN pip install playwright
 
-# Install browsers required by Playwright
+# Install the required browsers
 RUN playwright install
 
-# Set working directory
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy your project files into the container
+# Copy the rest of the project files
 COPY . /app
 
-# Install Python dependencies
+# Install Python dependencies from requirements.txt
 RUN pip install -r requirements.txt
 
-# Expose the port your app will run on
+# Expose the port the app will run on
 EXPOSE 8000
 
-# Run the application with Uvicorn
+# Command to run the application
 CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"]
