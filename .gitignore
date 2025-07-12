@@ -1,0 +1,40 @@
+# Python virtual environment
+venv/
+
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Output and debug files
+output/
+test_debug_scraper.py
+
+# VSCode / Dev container settings
+.devcontainer/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# OS-generated files
+*.log
+
+# Python env & package managers
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# Shell scripts (optional)
+run.sh
+
+# PyInstaller
+*.spec
+
+# Environment variable files (if any)
+.env
+.env.*
+
+# Jupyter notebooks (if added later)
+.ipynb_checkpoints/
