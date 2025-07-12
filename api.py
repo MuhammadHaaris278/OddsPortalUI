@@ -1,6 +1,5 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
-from fastapi.middleware.cors import CORSMiddleware  # Import CORSMiddleware
 import asyncio
 import os
 import json
@@ -12,20 +11,6 @@ from utils.user_agent_pool import get_random_user_agent
 
 app = FastAPI(title="OddsPortal Scraper API")
 logger = get_logger("api")
-
-# CORS middleware setup
-origins = [
-    "https://oddsportalui-1.onrender.com",  # Correct Streamlit app URL without trailing slash
-    "http://localhost",  # Local development URL
-]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,  # Allow access from Streamlit app URL
-    allow_credentials=True,
-    allow_methods=["*"],  # Allows all methods (GET, POST, etc.)
-    allow_headers=["*"],  # Allows all headers
-)
 
 # Store scraped data temporarily
 scraped_data = []
