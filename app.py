@@ -21,7 +21,7 @@ except ImportError as e:
     st.stop()
 
 # API configuration
-API_URL = "https://oddsportalui-1.onrender.com"  # Update this if the API runs elsewhere
+API_URL = "https://oddsportalui.onrender.com/"  # Update this if the API runs elsewhere
 logger = get_logger()
 
 
