@@ -17,6 +17,8 @@ loguru
 # Asynchronous Web Scraping
 playwright
 asyncio
+python-dotenv
+aiofiles
 
 # For Data Handling and Processing
 pandas
