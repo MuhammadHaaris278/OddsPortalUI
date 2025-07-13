@@ -20,12 +20,12 @@ async def scrape_wnba(url: str, output_subfolder: str, user_agent=None) -> list[
         context = await browser.new_context(user_agent=user_agent)
         page = await context.new_page()
 
-        # Remove timeout - wait indefinitely
-        await page.goto(url, timeout=0)
-        await page.wait_for_timeout(10000)  # Increased initial wait
+        await page.goto(url, timeout=60000)
+        await page.wait_for_timeout(5000)
 
-        # Wait for selector without timeout
-        await page.wait_for_selector('div[data-testid="game-row"]', timeout=0)
+
+        await page.wait_for_selector('div[data-testid="game-row"]')
+
         match_blocks = page.locator('div[data-testid="game-row"]')
 
         count = await match_blocks.count()
@@ -101,12 +101,12 @@ async def scrape_ncaa(url: str, output_subfolder: str, user_agent=None) -> list[
         context = await browser.new_context(user_agent=user_agent)
         page = await context.new_page()
 
-        # Remove timeout - wait indefinitely
-        await page.goto(url, timeout=0)
-        await page.wait_for_timeout(10000)  # Increased initial wait
+        await page.goto(url, timeout=60000)
+        await page.wait_for_timeout(5000)
 
-        # Wait for selector without timeout
-        await page.wait_for_selector('div[data-testid="game-row"]', timeout=0)
+
+        await page.wait_for_selector('div[data-testid="game-row"]')
+
         match_blocks = page.locator('div[data-testid="game-row"]')
 
         count = await match_blocks.count()
@@ -182,12 +182,12 @@ async def scrape_nfl(url: str, output_subfolder: str, user_agent=None) -> list[d
         context = await browser.new_context(user_agent=user_agent)
         page = await context.new_page()
 
-        # Remove timeout - wait indefinitely
-        await page.goto(url, timeout=0)
-        await page.wait_for_timeout(10000)  # Increased initial wait
+        await page.goto(url, timeout=60000)
+        await page.wait_for_timeout(5000)
 
-        # Wait for selector without timeout
-        await page.wait_for_selector('div[data-testid="game-row"]', timeout=0)
+
+        await page.wait_for_selector('div[data-testid="game-row"]')
+
         match_blocks = page.locator('div[data-testid="game-row"]')
 
         count = await match_blocks.count()
@@ -263,12 +263,12 @@ async def scrape_sport(sport: str, url: str, output_subfolder: str, user_agent=N
         context = await browser.new_context(user_agent=user_agent)
         page = await context.new_page()
 
-        # Remove timeout - wait indefinitely
-        await page.goto(url, timeout=0)
-        await page.wait_for_timeout(10000)  # Increased initial wait
+        await page.goto(url, timeout=60000)
+        await page.wait_for_timeout(5000)
 
-        # Wait for selector without timeout
-        await page.wait_for_selector('div[data-testid="game-row"]', timeout=0)
+
+        await page.wait_for_selector('div[data-testid="game-row"]')
+
         match_blocks = page.locator('div[data-testid="game-row"]')
 
         count = await match_blocks.count()
@@ -300,7 +300,7 @@ async def scrape_sport(sport: str, url: str, output_subfolder: str, user_agent=N
 
                 matches.append({
                     "datetime": match_datetime.isoformat(),
-                    "league": sport.upper(),
+                    "league": "Unknown",
                     "team1": team1,
                     "team2": team2,
                     "odds": odds[:3],
@@ -358,10 +358,10 @@ async def fetch_matches(proxy=None, user_agent=None) -> list[dict]:
         ("baseball", baseball_url),
     ]:
         try:
-            log.info(f"[{sport.upper()}] Starting to scrape...")
+
             result = await scrape_sport(sport, url, sport, user_agent=user_agent)
             all_matches.extend(result)
-            log.info(f"[{sport.upper()}] Completed scraping, got {len(result)} matches")
+
         except Exception as e:
             log.error(f"[{sport.upper()}] Error during scraping: {e}")
 
@@ -372,10 +372,10 @@ async def fetch_matches(proxy=None, user_agent=None) -> list[dict]:
         ("wnba", wnba_url, "wnba", scrape_wnba),
     ]:
         try:
-            log.info(f"[{name.upper()}] Starting to scrape...")
+
             result = await func(url, folder, user_agent=user_agent)
             all_matches.extend(result)
-            log.info(f"[{name.upper()}] Completed scraping, got {len(result)} matches")
+
         except Exception as e:
             log.error(f"[{name.upper()}] Error during scraping: {e}")
 
